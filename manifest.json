@@ -1,9 +1,10 @@
 {
     "manifest_version": 2,
-    "name": "Netflix Extension",
+    "name": "Netflix Enhancement",
+    "description": "Enhance and customize Netflix functionality",
     "version": "0.1",
 
-    "permissions": ["storage", "tabs", "https://www.youtube.com/*"],
+    "permissions": ["storage", "tabs"],
 
     "background": {
         "scripts": ["background.js"],

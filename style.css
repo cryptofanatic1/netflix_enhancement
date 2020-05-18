@@ -24,18 +24,12 @@
 /* Change color of dropdown links on hover */
 .dropdown-content:hover {
     background-color: #e6e6e6;
-    border-color: #adadad;
+    border-color: #1fd0d6;
 }
 
 .dropdown-content:active {
     background-color: #d4d4d4;
     border-color: #8c8c8c;
-}
-
-.trailer {
-    background-color:white; 
-    height:100%; 
-    width:100%; 
 }
 
 .separator {
