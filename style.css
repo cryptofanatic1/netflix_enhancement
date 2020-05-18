@@ -1,0 +1,180 @@
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 3px;
+    border-width:2px;
+    border-style: solid;
+    border-color: #ccc;
+    min-width:100px;
+    z-index:1;
+    top:20px;
+    left:120px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content {
+    color: black;
+    padding: 6px 6px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.dropdown-content:active {
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+
+.trailer {
+    background-color:white; 
+    height:100%; 
+    width:100%; 
+}
+
+.separator {
+    width:100%;
+    margin-left:-3px;
+    margin-top:5px;
+    border-bottom:1px solid lightgrey;
+}
+
+.sliderCover {
+    width:30px;
+    height:15px;
+    background-color:rgba(0,0,0,0);
+    position:relative;
+}
+
+.sliderButtonBackground {
+    width:100%;
+    height:100%;
+    border-radius:50px;
+    background-color:#F0F0F0;
+    box-shadow: 0px 1px 5px black;
+    opacity:1;
+}
+
+.sliderButton {
+    width:50%;
+    height:98%;
+    border-radius:20px;
+    background-color:#F0F0F0;
+    box-shadow: 1px 3px 10px #333333, 2px 2px 50px white inset;
+    position:relative;
+}
+
+.row {
+    clear:both;
+    position: relative;
+}
+
+.sliderColorActive {
+    background-color: #00abff !important; 
+    -webkit-transition: all .75s ease-in;
+    -moz-transition: all .75s ease-in;
+    -o-transition: all .75s ease-in;
+    -ms-transition: all .75s ease-in;
+    transition: all .75s ease-in;
+}
+
+.sliderColorDeactive {
+    background-color: #F0F0F0 !important;
+    -webkit-transition: all .75s ease-out;
+    -moz-transition: all .75s ease-out;
+    -o-transition: all .75s ease-out;
+    -ms-transition: all .75s ease-out;
+    transition: all .75s ease-out;
+}
+
+.button {
+    cursor:default;
+    border-radius:5px;
+}
+
+.button:active {
+    transform:translateY(1px);
+}
+
+.buttonPrimary {
+    color:white;
+    background-color: #00abff;
+    box-shadow: 0px 2px 2px #00121b;
+}
+
+.buttonPrimary:hover {
+    background-color: #009ae6;
+}
+
+.buttonPrimary:active {
+    background-color: #009ae6;
+    box-shadow: 0px 1px 2px #00121b;
+}
+
+.buttonGreen {
+    color:white;
+    background-color: #00cd00;
+    box-shadow: 0px 2px 2px #00121b;
+}
+
+.buttonGreen:hover {
+    background-color: #00b800;
+}
+
+.buttonGreen:active {
+    background-color: #00b800;
+    box-shadow: 0px 1px 2px #00121b;
+}
+
+.buttonRed {
+    color:white;
+    background-color: #FF0000;
+    box-shadow: 0px 2px 2px #00121b;
+}
+
+.buttonRed:hover {
+    background-color: #e60000;
+}
+
+.buttonRed:active {
+    background-color: #e60000;
+    box-shadow: 0px 1px 2px #00121b;
+}
+
+.buttonGrey {
+    color:black;
+    background-color: #F0F0F0;
+    box-shadow: 0px 2px 2px #00121b;
+}
+
+.buttonGrey:hover {
+    background-color: #e3e3e3;
+}
+
+.buttonGrey:active {
+    background-color: #e3e3e3;
+    box-shadow: 0px 1px 2px #00121b;
+}
+
+.confirmationModal {
+    position: relative;
+    background: #f4f4f4;
+    border-radius: 5px; 
+    height: 25px;
+}
+
+.confirmationModal:before{
+    content: "";
+    position: absolute;
+    top: 7px;
+    left:-10px;
+    z-index: 1;
+    border: solid 5px transparent;
+    border-right-color: #f4f4f4;
+}

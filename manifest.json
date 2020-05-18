@@ -1,0 +1,23 @@
+{
+    "manifest_version": 2,
+    "name": "Netflix Extension",
+    "version": "0.1",
+
+    "permissions": ["storage", "tabs", "https://www.youtube.com/*"],
+
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+
+    "content_scripts": [{
+        "matches": ["*://*.netflix.com/*"],
+        "js": ["jquery-1.9.1.js", "content.js"],
+        "css": ["style.css"]
+    }],
+
+    "page_action": {
+        "default_title": "Netflix Enhancement",
+        "default_popup": "popup.html"
+    }
+}

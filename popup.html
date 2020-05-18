@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body style="width:215px; height:260px; font-size:75%; font-family: 'Segoe UI', Tahoma, sans-serif;">
+        <script src="jquery-1.9.1.js"></script>
+        <script src="popup.js"></script>
+        <div style="text-align:center;">
+            <span>Netflix Enhancement</span>
+        </div>
+        <div class="separator" style="width:220px"></div>
+        <div class = "row" id = "profileSliderSection">
+            <span style="float:left; position:relative; top:10px;">Automatic profile selection</span>
+            <div class="sliderCover" id="profileSliderCover" style="top:10px; left:-10px; float:right">
+                <div class="sliderButtonBackground" id = "profileSlider">
+                    <div class="sliderButton" id = "profileSliderButton"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="position:relative; top:18px;">
+            <div type="button" id="clearSavedProfile" class="button buttonPrimary" 
+                 style="float:left; height:15px; width:100px; padding: 4px; padding-top:3px; padding-bottom:5px;
+                        text-align:center">
+                Clear Saved Profile
+            </div>
+            <div id="clearSavedProfileConfirm" style="left:-80px; top:1px; float:left; width: 67px; display:none; z-index:-1" class="confirmationModal">
+                <div id="clearSavedProfileConfirmYes" type="button" class="button buttonPrimary" style="position:relative; top:3px; left:5px; 
+                    float:left; height:12px; width:20px; padding-bottom:5px; padding-left:4px; padding-right:2px">
+                    Yes
+                </div>
+                <div id="clearSavedProfileConfirmNo" type="button" class="button buttonGrey" style="position:relative; top:3px; left:10px; 
+                    float:left; height:12px; width:20px; padding-bottom:5px; padding-left:5px; padding-right:0px">
+                    No
+                </div>
+            </div>
+        </div>
+        <div class="separator" style="position:relative; top:50px; width:220px"></div>
+        <div class = "row" id = "trailerSliderSection" style="position:relative; top:35px;">
+            <span style="float:left; position:relative; top:10px;">Show trailer on hover</span>
+            <div class="sliderCover" id= "trailerSliderCover" style="top:10px; left:-10px; float:right">
+                <div class="sliderButtonBackground" id = "trailerSlider">
+                    <div class="sliderButton" id = "trailerSliderButton"></div>
+                </div>
+            </div>
+        </div>
+        <div class = "row" id = "continueWatchiingSliderSection" style="position:relative; top:50px;">
+            <span style="float:left; position:relative; top:10px;">Hide from continue watching</span>
+            <div class="sliderCover" id= "continueWatchingSliderCover" style="top:10px; left:-10px; float:right">
+                <div class="sliderButtonBackground" id = "continueWatchingSlider">
+                    <div class="sliderButton" id = "continueWatchingSliderButton"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
