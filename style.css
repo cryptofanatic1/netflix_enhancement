@@ -7,24 +7,48 @@
     border-width:2px;
     border-style: solid;
     border-color: #ccc;
-    min-width:100px;
     z-index:1;
-    top:20px;
-    left:120px;
+    top: 100%;
+    margin-top: 6px;
+    left: 50%;
+    background: #fff;
+    color: #000;
+    width: 8.5vw;
+    font-size: 0.9vw;
+    font-weight: 700;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    transform: translateX(-50%);
 }
 
-/* Links inside the dropdown */
-.dropdown-content {
-    color: black;
-    padding: 6px 6px;
-    text-decoration: none;
-    display: block;
+/* outline arrow */
+.dropdown-content:before, .dropdown-content:after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 4.5vw;
+    z-index: 1;
+    border: solid transparent;
 }
 
-/* Change color of dropdown links on hover */
+/* Change color of dropdown on hover */
 .dropdown-content:hover {
     background-color: #e6e6e6;
-    border-color: #1fd0d6;
+    border-color: #00abff;
+}
+
+/* outline on arrow on dropdown */
+.dropdown-content:hover:before {
+    border-bottom-color: #00abff;
+    border-width: 8px;
+    margin-top:-6px;
+    margin-left:-3px;
+}
+
+/* arrow on dropdown */
+.dropdown-content:after {
+    border-bottom-color: #e6e6e6;
+    border-width: 5px;
 }
 
 .dropdown-content:active {
@@ -33,8 +57,8 @@
 }
 
 .separator {
-    width:100%;
-    margin-left:-3px;
+    width:240px;
+    margin-left:5px;
     margin-top:5px;
     border-bottom:1px solid lightgrey;
 }
@@ -163,7 +187,7 @@
     height: 25px;
 }
 
-.confirmationModal:before{
+.confirmationModal:before {
     content: "";
     position: absolute;
     top: 7px;
@@ -171,4 +195,14 @@
     z-index: 1;
     border: solid 5px transparent;
     border-right-color: #f4f4f4;
+}
+
+/*Make netflix buttons higher index so that tooltips show above buttons I add*/
+.nf-svg-button-wrapper {
+    position:relative;
+    z-index:1;
+}
+
+.hide {
+    display:none !important;
 }

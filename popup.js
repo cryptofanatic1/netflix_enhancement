@@ -1,8 +1,20 @@
+var syncedSettings = ["profile",
+                      "hiddenGenres",
+                      "hiddenContinueWatching",
+                      "enableAutoProfileSelect",
+                      "enableContinueWatching"];
+
 var profileEnable = 0;
 var continueWatchingEnable = 0;
 
 function saveUserSettings(obj) {
     chrome.storage.sync.set(obj, function() {
+    });
+}
+
+function refreshWindow() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.update(tabs[0].id, {url: tabs[0].url});
     });
 }
 
@@ -72,6 +84,7 @@ function toggleContinueWatching() {
     continueWatchingEnable = (continueWatchingEnable+1)%2;
     continueWatchingSlider();
     saveUserSettings({"enableContinueWatching":continueWatchingEnable});
+    refreshWindow();
 }
 
 function continueWatchingSlider () {
@@ -93,6 +106,30 @@ function continueWatchingSlider () {
             left:"0px"
         }, 500);
     }
+}
+
+function restoreContinueWatchingButton() {
+    $("#restoreContinueWatchingConfirm").css({"display":"block"});
+    $("#restoreContinueWatching").text("Are you sure?");
+    $("#restoreContinueWatchingConfirm").animate({
+        'left' : '10px'
+    }, 750, function() {
+        $("#restoreContinueWatchingConfirm").css({"z-index":"1"});
+    });
+}
+
+function restoreContinueWatching(confirm) {
+    if (confirm) {
+        chrome.storage.sync.remove(["hiddenContinueWatching"]);
+        refreshWindow();   
+    }
+    $("#restoreContinueWatchingConfirm").css({"z-index":"-1"});
+    $("#restoreContinueWatching").text("Restore Continue Watching");
+    $("#restoreContinueWatchingConfirm").animate({
+        'left' : '-80px'
+    }, 750, function() {
+        $("#restoreContinueWatchingConfirm").css({"display":"none"});
+    });
 }
 
 function populateMenuSettings(settings) {
@@ -124,7 +161,18 @@ $(document).ready(function(){
         toggleContinueWatching();
     })
 
-    chrome.storage.sync.get(["profile", "hiddenGenres", "enableAutoProfileSelect", "enableContinueWatching"], 
+    $("#restoreContinueWatching").click(function() {
+        restoreContinueWatchingButton();
+    }) 
+
+    $("#restoreContinueWatchingConfirmYes").click(function() {
+        restoreContinueWatching(1);
+    }) 
+    $("#restoreContinueWatchingConfirmNo").click(function() {
+        restoreContinueWatching(0);
+    }) 
+
+    chrome.storage.sync.get(syncedSettings, 
         function(settings) {
             console.log("User Settings", settings)
             populateMenuSettings(settings);

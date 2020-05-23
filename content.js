@@ -1,8 +1,15 @@
-var globalUserSettings
+var globalUserSettings;
+var syncedSettings = ["profile",
+                      "hiddenGenres",
+                      "hiddenContinueWatching",
+                      "enableAutoProfileSelect",
+                      "enableContinueWatching"];
+var continueWatchingOptionsAdded = false;
+
 init()
 
 function getUserSettings(callback) {
-    chrome.storage.sync.get(["profile", "hiddenGenres", "enableAutoProfileSelect", "enableContinueWatching"], 
+    chrome.storage.sync.get(syncedSettings, 
         function(settings) {
             console.log("User Settings", settings)
             callback(settings)
@@ -47,46 +54,104 @@ function clickProfile(profileSpan) {
     }
 }
 
-function saveUserProfile(li) {
-    var profileSpan = li.find("span.profile-name")
-    saveUserSettings({"profile":profileSpan[0].innerText})
-    saveUserSettings({"enableAutoProfileSelect":1})
+function saveUserProfile(profile) {
+    var profileSpan = profile.find("span.profile-name");
+    saveUserSettings({"profile":profileSpan.innerText});
+    saveUserSettings({"enableAutoProfileSelect":1});
     clickProfile(profileSpan);
 }
 
 function addSaveProfileOption() {
-    $("li.profile").each(function() {
-        var list = $(this)
-        list.append($("<ul style='display:none' class='dropdown-content'><li><span>Always use this profile?</span></li></ul>"))
-        list.hover(function() {
-	        list.children('ul').stop(true, false, true).fadeToggle(300)
-                                  .click(function() {saveUserProfile(list)});
+    $("div.avatar-wrapper").each(function() {
+        var tooltip = $("<span style='display:none' class='dropdown-content' role='status' aria-live='assertive'>\
+                                        Always use this profile?</span>");
+        var profile = $(this);
+        profile.append(tooltip);
+        profile.hover(function() {
+            tooltip.stop(true, false, true).fadeToggle(300)
+                   .click(function() {saveUserProfile(profile);})
         });
-    })
+    });
 }
 
-function addHideFromContinueWatchingOption() {
-    if (globalUserSettings.enableContinueWatching) {
-        var timer
-        $("div.slider-item").each(function() {
-            var item = $(this)
-            item.append($("<ul style='display:none' class='dropdown-content'><li><span>Hide this show?</span></li></ul>"))
-            item.hover(function() {
-                item.children('ul').stop(true, false, true).fadeToggle(300)
-                                    .click(function() {saveHiddenShow(list)});
-            })
-        })
+function hideShow(obj) {
+    $(obj).remove();
+}
+
+function hideContinueWatchingShows(show) {
+    var title = $(show).find("a.slider-refocus").attr("aria-label");
+    if (typeof globalUserSettings != "undefined") {
+        if (globalUserSettings.hasOwnProperty("hiddenContinueWatching") &&
+            globalUserSettings.enableContinueWatching == 1)
+        {
+            if (globalUserSettings.hiddenContinueWatching.findIndex(function(e) {return e==title;}) != -1) {
+                hideShow(show);
+            }
+        }
     }
+}
+
+function saveHiddenShow(title) {
+    if (typeof globalUserSettings != "undefined") {
+        if (globalUserSettings.hasOwnProperty("hiddenContinueWatching")) {
+            if (globalUserSettings.hiddenContinueWatching.findIndex(function(e) {return e==title;}) == -1) {
+                globalUserSettings.hiddenContinueWatching.push(title);
+                saveUserSettings({"hiddenContinueWatching":globalUserSettings.hiddenContinueWatching});
+            }
+        }
+        else {
+            var list = [title];
+            saveUserSettings({"hiddenContinueWatching":list});
+        }
+    }
+}
+
+function createHideShowButton(obj) {
+    setTimeout(function() {
+        var buttons = $(obj).find(".ActionButtons");
+        //make new added button lower index so that tool tips will appear on top of it
+        buttons.append("<div class='nf-svg-button-wrapper' style='position:relative; z-index:0'>\
+                            <a role='link' class='nf-svg-button simpleround'>\
+                                <svg class='svg-icon svg-icon-mylist-add' focusable='true' transform='rotate(45)'>\
+                                    <use filter xlink:href='#mylist-add'></use></svg></a>\
+                            <span class='nf-svg-button-tooltip' role='status' aria-live='assertive'>\
+                            Hide from Continue Watching</span></div>")
+        
+               .click(function() {
+                    saveUserSettings({"enableContinueWatching":1});
+                    var title = $(obj).find(".bob-jaw-hitzone").attr("aria-label");
+                    saveHiddenShow(title);
+                    hideShow($(obj));
+                });
+    }, 600);
+}
+
+function handleContinueWatching(userSettings) {
+    if (typeof userSettings == "undefined" || continueWatchingOptionsAdded) {
+        return;
+    }
+
+    $("div.lolomoRow").each(function() {
+        if ($(this).attr("data-list-context") == "continueWatching") {
+            continueWatchingOptionsAdded = true;
+            $(this).find("div.slider-item").each(function() {
+                hideContinueWatchingShows($(this));
+                $(this).hover(function() {
+                    createHideShowButton($(this));
+                })
+            })
+        }
+    })
 }
 
 //This function needs to be called repeated times when new DOM elements are added
 function mainPageSetupRepeat() {
     hideGenres(globalUserSettings);
+    handleContinueWatching(globalUserSettings);
 }
 
 function mainPageSetup() {
     mainPageSetupRepeat();
-    addHideFromContinueWatchingOption();
 }
 
 function setup(userSettings) {
