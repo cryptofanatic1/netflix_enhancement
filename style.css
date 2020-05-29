@@ -206,3 +206,25 @@
 .hide {
     display:none !important;
 }
+
+
+.rottenTomato {
+    height:30px;
+    width:32px;
+    position:relative;
+    top:-124px;
+    left:25px;
+    z-index:1;
+}
+
+.rottenTomatoRating {
+    color: white;
+    font-size:  12px;
+    position:relative;
+    top: -133px;
+    left:-4px;
+    z-index:2;
+    font-family: 'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}

@@ -4,7 +4,7 @@
     "description": "Enhance and customize Netflix functionality",
     "version": "0.1",
 
-    "permissions": ["storage", "tabs"],
+    "permissions": ["storage", "tabs", "https://www.google.com/*", "https://www.rottentomatoes.com/*"],
 
     "background": {
         "scripts": ["background.js"],
@@ -20,5 +20,9 @@
     "page_action": {
         "default_title": "Netflix Enhancement",
         "default_popup": "popup.html"
-    }
+    },
+
+    "web_accessible_resources": [
+        "images/*.svg"
+    ]
 }

@@ -144,6 +144,77 @@ function handleContinueWatching(userSettings) {
     })
 }
 
+//search google with query, return first result that contains parseUrl
+//asynchronously wait for callback to complete so that link is valid
+async function searchGoogle(query, parseUrl) {
+    return await new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({id: 'fetchGoogle',
+                                    query: query},
+                                   function(response) {
+            var link = "undefined";
+            var dom = $.parseHTML(response);
+            var body = $(dom).filter("#main");
+            $(body).find(".r").each(function() { //each result
+                var dontBreakLoop = true;
+                $(this).find("a").each(function() { //each link
+                    var testLink = $(this).attr("href");
+                    if (testLink.indexOf(parseUrl) > -1) {
+                        link = testLink;
+                        dontBreakLoop = false; //break outerloop
+                        return false; //break
+                    }
+                });
+                return dontBreakLoop;
+            });
+
+            resolve(link);
+        });
+    });
+}
+
+function displayRottenTomato(show, rating) {
+    console.log(rating);
+    var svg = "images/rotten_tomato.svg";
+    if (parseInt(rating.slice(0,-1)) < 60) {
+        svg = "images/rotten.svg"
+    }
+    $(show).append("<img src='" + chrome.runtime.getURL(svg) + "' class='rottenTomato'></im>");
+    $(show).append("<span class='rottenTomatoRating'>" + rating + "</span>");
+}
+
+function scrapeRottenTomatoes(show, query) {
+    chrome.runtime.sendMessage({id: 'fetchRottenTomatoes',
+                                query: query},
+                               function(response) {
+        var link = "undefined";
+        var dom = $.parseHTML(response);
+        var body = $(dom).filter("div.body_main");
+        var rating = $(body).find(".mop-ratings-wrap__percentage").first().text().trim();
+        displayRottenTomato(show, rating);
+    });
+}
+
+function addRottenTomatoes(userSettings) {
+    $("#row-1").each(function() {
+        $(this).find("div.slider-item").each(function() {
+            var show = $(this);
+            var title = show.find("a.slider-refocus").attr("aria-label");
+            if (title != undefined) {
+                searchGoogle("rotten tomatoes " + title, "rottentomatoes")
+                    .then(function(link) {
+                        console.log(link);
+                        if (link == "undefined" || (link.indexOf("/m/") == -1 && link.indexOf("/tv/") == -1) ) {
+                            return;
+                        }
+                        var query = link.slice(link.indexOf(".com")+4);
+                        scrapeRottenTomatoes(show, query);
+                    });
+                
+            }
+        });
+    });
+}
+
 //This function needs to be called repeated times when new DOM elements are added
 function mainPageSetupRepeat() {
     hideGenres(globalUserSettings);
@@ -152,6 +223,7 @@ function mainPageSetupRepeat() {
 
 function mainPageSetup() {
     mainPageSetupRepeat();
+    addRottenTomatoes(globalUserSettings);
 }
 
 function setup(userSettings) {
